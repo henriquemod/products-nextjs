@@ -1,12 +1,15 @@
-import { Header } from "@/components/header";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import AuthForm from "./form";
 
-export default function Home() {
+export default function Auth() {
   return (
-    <main>
-      <Header />
-      <div className="flex flex-col gap-6 px-6 max-w-6xl ml-auto mr-auto">
-        <h1>AUTH</h1>
-      </div>
-    </main>
+    <div className="w-full h-screen border flex justify-center items-center border-none">
+      <Card className="w-[680px] bg-gray-800 border-none py-24 px-28">
+        <CardHeader className="py-0 mb-12">
+          <CardTitle className="text-white">Login</CardTitle>
+        </CardHeader>
+        <AuthForm />
+      </Card>
+    </div>
   );
 }
