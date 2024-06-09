@@ -104,7 +104,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
           })}
         </TableRow>
       )),
-    [table]
+    [table, products]
   );
 
   const handleCreate = async (product: { name: string; price: number }) => {

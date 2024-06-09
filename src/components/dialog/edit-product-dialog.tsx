@@ -11,26 +11,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
+import { Product } from "@/domain/product";
 
 interface EditProductDialogProps {
   open: boolean;
   onClose: () => void;
-  name: string;
-  price: string;
-  onNameChange: (name: string) => void;
-  onPriceChange: (price: string) => void;
-  onSave: () => void;
+  product: Product;
+  onSave: (name: string, price: string) => void;
 }
 
 const EditProductDialog: React.FC<EditProductDialogProps> = ({
   open,
   onClose,
-  name,
-  price,
-  onNameChange,
-  onPriceChange,
+  product,
   onSave,
 }) => {
+  const [name, setName] = useState(product.name);
+  const [price, setPrice] = useState(product.price.toString());
   const [nameError, setNameError] = useState<string | null>(null);
   const [priceError, setPriceError] = useState<string | null>(null);
 
@@ -56,7 +53,9 @@ const EditProductDialog: React.FC<EditProductDialogProps> = ({
 
   const handleSave = () => {
     if (validateFields()) {
-      onSave();
+      onSave(name, price);
+      setName("");
+      setPrice("");
       onClose();
     }
   };
@@ -78,7 +77,7 @@ const EditProductDialog: React.FC<EditProductDialogProps> = ({
             <Input
               id="edit-name"
               value={name}
-              onChange={(e) => onNameChange(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               className="col-span-3"
             />
             {nameError && (
@@ -94,7 +93,7 @@ const EditProductDialog: React.FC<EditProductDialogProps> = ({
             <Input
               id="edit-price"
               value={price}
-              onChange={(e) => onPriceChange(e.target.value)}
+              onChange={(e) => setPrice(e.target.value)}
               className="col-span-3"
             />
             {priceError && (

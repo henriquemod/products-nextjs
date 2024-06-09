@@ -1,11 +1,6 @@
+import { envs } from "@/envs";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-
-const API_URL = process.env.API_URL as string;
-
-if (!API_URL) {
-  throw new Error("API_URL environment variable is not set");
-}
 
 const getAuthToken = () => {
   const cookieStore = cookies();
@@ -31,7 +26,7 @@ export async function POST(request: NextRequest) {
   const requestBody = await request.json();
   const token = getAuthToken();
 
-  const res = await fetch(`${API_URL}/products`, {
+  const res = await fetch(`${envs.apiEndpoint}/products`, {
     method: "POST",
     headers: createHeaders(token),
     body: JSON.stringify(requestBody),
@@ -51,7 +46,7 @@ export async function PUT(request: NextRequest) {
   const requestBody = await request.json();
   const token = getAuthToken();
 
-  const res = await fetch(`${API_URL}/products/${id}`, {
+  const res = await fetch(`${envs.apiEndpoint}/products/${id}`, {
     method: "PUT",
     headers: createHeaders(token),
     body: JSON.stringify(requestBody),
@@ -63,9 +58,9 @@ export async function PUT(request: NextRequest) {
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const id = searchParams.get("id");
-  const endpoint = id ? `products/id=${id}` : "products";
+  const path = id ? `products/id=${id}` : "products";
 
-  const res = await fetch(`${API_URL}/${endpoint}`, {
+  const res = await fetch(`${envs.apiEndpoint}/${path}`, {
     headers: createHeaders(),
   });
 
@@ -82,7 +77,7 @@ export async function DELETE(request: NextRequest) {
 
   const token = getAuthToken();
 
-  const res = await fetch(`${API_URL}/products/${id}`, {
+  const res = await fetch(`${envs.apiEndpoint}/products/${id}`, {
     method: "DELETE",
     headers: createHeaders(token),
   });

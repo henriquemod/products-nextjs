@@ -4,6 +4,7 @@
         "badeball",
         "boiseitguru",
         "tanstack",
-        "toastify"
+        "toastify",
+        "zustand"
     ]
 }

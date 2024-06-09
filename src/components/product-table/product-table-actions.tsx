@@ -30,11 +30,9 @@ export const ProductTableActions: React.FC<ProductTableActionsProps> = ({
   const [openView, setOpenView] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [name, setName] = useState(product.name);
-  const [price, setPrice] = useState(product.price.toString());
   const { handleApiResponse } = useNotification();
 
-  const handleSave = async () => {
+  const handleSave = async (name: string, price: string) => {
     const res = await updateProduct(product.id, {
       name,
       price: parseFloat(price),
@@ -52,7 +50,7 @@ export const ProductTableActions: React.FC<ProductTableActionsProps> = ({
     const res = await deleteProduct(product.id);
     handleApiResponse({
       res,
-      successMessage: `Product ${name} deleted successfully`,
+      successMessage: `Product ${product.name} deleted successfully`,
       onSuccess: () => {
         setOpenDelete(false);
       },
@@ -64,7 +62,7 @@ export const ProductTableActions: React.FC<ProductTableActionsProps> = ({
       <Menubar className="justify-end">
         <MenubarMenu>
           <MenubarTrigger>
-            <Settings className="w-6 text-slate-500" />
+            <Settings className="w-6 cursor-pointer text-slate-500" />
           </MenubarTrigger>
           <MenubarContent>
             <MenubarItem onClick={() => setOpenView(true)}>
@@ -103,10 +101,7 @@ export const ProductTableActions: React.FC<ProductTableActionsProps> = ({
       <EditProductDialog
         open={openEdit}
         onClose={() => setOpenEdit(false)}
-        name={name}
-        price={price}
-        onNameChange={setName}
-        onPriceChange={setPrice}
+        product={product}
         onSave={handleSave}
       />
       <DeleteProductDialog

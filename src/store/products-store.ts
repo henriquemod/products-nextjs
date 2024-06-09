@@ -42,7 +42,7 @@ export const createProductStore = (
     changeCurrentPage: (currentPage) => set(() => ({ currentPage })),
 
     deleteProduct: async (id): Promise<ApiResponse> => {
-      const res = await fetch(`http://localhost:3000/api/products?id=${id}`, {
+      const res = await fetch(`/api/products?id=${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });
@@ -58,14 +58,11 @@ export const createProductStore = (
     },
 
     updateProduct: async (productId, product): Promise<ApiResponse> => {
-      const res = await fetch(
-        `http://localhost:3000/api/products?id=${productId}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(product),
-        }
-      );
+      const res = await fetch(`/api/products?id=${productId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(product),
+      });
 
       if (res.status === 200) {
         const updatedProduct = await res.json();
@@ -81,7 +78,7 @@ export const createProductStore = (
     },
 
     createProduct: async (product): Promise<ApiResponse> => {
-      const res = await fetch(`http://localhost:3000/api/products`, {
+      const res = await fetch(`/api/products`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(product),

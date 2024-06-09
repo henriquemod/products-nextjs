@@ -1,9 +1,9 @@
+import { envs } from "@/envs";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 const requestBackend = async (username: string, password: string) => {
-  const url = process.env.API_URL as string;
-  const response = await fetch(`${url}/auth/login`, {
+  const response = await fetch(`${envs.apiEndpoint}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -1,10 +1,11 @@
 import { Header } from "@/components/header";
 import { ProductTable } from "@/components/product-table";
 import { Product } from "@/domain/product";
+import { envs } from "@/envs";
 
-export async function getProducts(): Promise<Product[] | undefined> {
+async function getData(): Promise<Product[] | undefined> {
   try {
-    const res = await fetch(`http://localhost:3030/products`, {
+    const res = await fetch(`${envs.apiEndpoint}/products`, {
       method: "GET",
       cache: "no-store",
       headers: {
@@ -19,7 +20,7 @@ export async function getProducts(): Promise<Product[] | undefined> {
 }
 
 export default async function Home() {
-  const products = await getProducts();
+  const products = await getData();
 
   return (
     <main>

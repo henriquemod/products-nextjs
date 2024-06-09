@@ -35,7 +35,7 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
         username: string,
         password: string
       ): Promise<ApiResponse> => {
-        const res = await fetch("http://localhost:3000/api/login", {
+        const res = await fetch("/api/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, password }),
@@ -53,7 +53,7 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
         return handleErrorResponse(res);
       },
       clearAccessToken: async (): Promise<ApiResponse> => {
-        const res = await fetch("http://localhost:3000/api/logout", {
+        const res = await fetch("/api/logout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({}),

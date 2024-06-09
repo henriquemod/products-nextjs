@@ -13,7 +13,7 @@ export default defineConfig({
     },
     numTestsKeptInMemory: 1,
     watchForFileChanges: false,
-    baseUrl: "http://localhost:3000",
+    baseUrl: "http://localhost:3031",
     specPattern: "**/*.feature",
     env: {
       API_URL: "http://localhost:3030",
