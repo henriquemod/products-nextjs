@@ -9,13 +9,19 @@ import {
 } from "@/components/ui/table";
 import { Product } from "@/domain/product";
 import { useProductsStore } from "@/providers/products-provider";
+import { useUserStore } from "@/providers/user-provider";
+import cookieCutter from "@boiseitguru/cookie-cutter";
 import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  PaginationState,
   useReactTable,
 } from "@tanstack/react-table";
+import { CirclePlus } from "lucide-react";
 import React, { useCallback, useEffect, useState } from "react";
+import { CreateProductDialog } from "../dialog/create-product-dialog";
+import { Button } from "../ui/button";
 import { productTableColumns } from "./columns";
 import { ProductTablePagination } from "./pagination";
 
@@ -36,10 +42,23 @@ const getAlignment = (i: number, length: number) => {
 export const ProductTable: React.FC<ProductTableProps> = ({
   products: productsFromApi,
 }) => {
-  const { products, currentPage, productsPerPage, addProduct } =
-    useProductsStore((state) => state);
+  const {
+    products,
+    currentPage,
+    productsPerPage,
+    setProducts,
+    handleCreateProduct,
+  } = useProductsStore((state) => state);
+  const { setAccessToken } = useUserStore((state) => state);
 
-  const [pagination, setPagination] = useState({
+  useEffect(() => {
+    const userAccessToken = cookieCutter.get("acess-token");
+    if (userAccessToken) {
+      setAccessToken(userAccessToken);
+    }
+  }, [setAccessToken]);
+
+  const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: currentPage,
     pageSize: productsPerPage,
   });
@@ -91,14 +110,14 @@ export const ProductTable: React.FC<ProductTableProps> = ({
           })}
         </TableRow>
       )),
-    [table]
+    [table, products.length]
   );
 
   useEffect(() => {
     if (productsFromApi) {
-      productsFromApi.forEach(addProduct);
+      setProducts(productsFromApi);
     }
-  }, [productsFromApi, addProduct]);
+  }, [productsFromApi]);
 
   useEffect(() => {
     setPagination({
@@ -107,9 +126,21 @@ export const ProductTable: React.FC<ProductTableProps> = ({
     });
   }, [productsPerPage, currentPage]);
 
+  const [openCreate, setOpenCreate] = useState(false);
+
+  const handleCreate = async (product: { name: string; price: number }) => {
+    await handleCreateProduct(product);
+    setOpenCreate(false);
+  };
+
   return (
     <>
-      <UITable className="border">
+      <div className="w-full flex justify-end pr-1">
+        <Button variant="ghost" onClick={() => setOpenCreate(true)}>
+          <CirclePlus className="text-green-500 w-8 h-8" />
+        </Button>
+      </div>
+      <UITable className="border relative">
         <TableHeader>{renderTableHeader()}</TableHeader>
         <TableBody>{renderTableBody()}</TableBody>
       </UITable>
@@ -121,6 +152,11 @@ export const ProductTable: React.FC<ProductTableProps> = ({
         handleGoToNextPage={table.nextPage}
         handleGoToPreviousPage={table.previousPage}
         index={table.getState().pagination.pageIndex + 1}
+      />
+      <CreateProductDialog
+        open={openCreate}
+        onClose={() => setOpenCreate(false)}
+        onCreate={handleCreate}
       />
     </>
   );

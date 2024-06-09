@@ -26,6 +26,6 @@ export const productTableColumns: ColumnDef<Product, any>[] = [
   }),
   columnHelper.display({
     header: "Actions",
-    cell: () => <ProductTableActions />,
+    cell: (info) => <ProductTableActions product={info.row.original} />,
   }),
 ];

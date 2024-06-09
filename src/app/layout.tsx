@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 import { ProductsStoreProvider } from "@/providers/products-provider";
+import { UserStoreProvider } from "@/providers/user-provider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -26,7 +27,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
           fontSans.variable
         )}
       >
-        <ProductsStoreProvider>{children}</ProductsStoreProvider>
+        <UserStoreProvider>
+          <ProductsStoreProvider>{children}</ProductsStoreProvider>
+        </UserStoreProvider>
       </body>
     </html>
   );

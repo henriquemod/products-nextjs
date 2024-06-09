@@ -18,6 +18,11 @@ const createHeaders = (token?: string) => ({
 });
 
 const handleResponse = async (res: Response) => {
+  if (res.status === 204) {
+    return new Response(null, {
+      status: 204,
+    });
+  }
   const body = await res.json();
   return NextResponse.json(body, { status: res.status });
 };

@@ -1,7 +1,6 @@
 import { Header } from "@/components/header";
 import { ProductTable } from "@/components/product-table";
 import { Product } from "@/domain/product";
-import { cookies } from "next/headers";
 
 export async function getProducts(): Promise<Product[] | undefined> {
   try {
@@ -20,7 +19,7 @@ export async function getProducts(): Promise<Product[] | undefined> {
 
 export default async function Home() {
   const products = await getProducts();
-  const cookieStore = cookies();
+
   return (
     <main>
       <Header />

@@ -42,6 +42,7 @@ export const ProductTablePagination: React.FC<ProductTableActionsProps> = ({
         variant="outline"
         onClick={handleGoToFirstPage}
         disabled={!canGoBack}
+        className="hidden sm:block"
       >
         {"<<"}
       </Button>
@@ -67,6 +68,7 @@ export const ProductTablePagination: React.FC<ProductTableActionsProps> = ({
         variant="outline"
         onClick={handleGoToLastPage}
         disabled={!canGoForward}
+        className="hidden sm:block"
       >
         {">>"}
       </Button>
