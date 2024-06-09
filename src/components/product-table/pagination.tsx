@@ -30,11 +30,8 @@ export const ProductTablePagination: React.FC<ProductTableActionsProps> = ({
   canGoForward,
   index,
 }: ProductTableActionsProps) => {
-  const {
-    handleChangeCurrentPage,
-    handleChangeProductsPerPage,
-    productsPerPage,
-  } = useProductsStore((state) => state);
+  const { changeCurrentPage, changeProductsPerPage, productsPerPage } =
+    useProductsStore((state) => state);
 
   return (
     <div className="flex items-center gap-2 justify-end text-slate-500 text-sm">
@@ -74,8 +71,8 @@ export const ProductTablePagination: React.FC<ProductTableActionsProps> = ({
       </Button>
       <Select
         onValueChange={(value) => {
-          handleChangeCurrentPage(0);
-          handleChangeProductsPerPage(Number(value));
+          changeCurrentPage(0);
+          changeProductsPerPage(Number(value));
         }}
         value={productsPerPage.toString()}
       >

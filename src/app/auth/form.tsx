@@ -2,13 +2,20 @@
 import { Button } from "@/components/ui/button";
 import { CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useUserStore } from "@/providers/user-provider";
+import { useNotification } from "@/hook/use-notification";
 
 const AuthForm: React.FC = () => {
+  const { authenticate } = useUserStore((state) => state);
+  const { handleApiResponse } = useNotification();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [usernameError, setUsernameError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -16,6 +23,11 @@ const AuthForm: React.FC = () => {
 
   const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+  };
+
+  const handleGoBack = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    router.back();
   };
 
   const validateFields = () => {
@@ -45,19 +57,15 @@ const AuthForm: React.FC = () => {
     }
 
     const requestBackend = async (username: string, password: string) => {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await authenticate(username, password);
+      handleApiResponse({
+        res,
+        successMessage: "Login successful",
+        unauthorizedMessage: "Invalid username or password",
+        onSuccess: () => {
+          window.location.replace("/");
         },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
       });
-      if (response.status === 200) {
-        window.location.replace("/");
-      }
     };
 
     await requestBackend(username, password);
@@ -66,8 +74,8 @@ const AuthForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <CardContent className="p-0">
-        <div className="grid w-full items-center justify-center gap-6">
-          <div className="flex flex-col w-[420px]">
+        <div className="flex flex-col items-center justify-center gap-6">
+          <div className="w-full text-center">
             <Input
               className="h-12"
               id="username"
@@ -77,10 +85,10 @@ const AuthForm: React.FC = () => {
               onChange={handleChangeUsername}
             />
             {usernameError && (
-              <p className="text-red-500 text-sm">{usernameError}</p>
+              <Label className="text-red-500 text-sm">{usernameError}</Label>
             )}
           </div>
-          <div className="flex flex-col w-[420px]">
+          <div className="w-full text-center">
             <Input
               className="h-12"
               id="password"
@@ -90,14 +98,24 @@ const AuthForm: React.FC = () => {
               onChange={handleChangePassword}
             />
             {passwordError && (
-              <p className="text-red-500 text-sm">{passwordError}</p>
+              <Label className="text-red-500 text-sm">{passwordError}</Label>
             )}
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-center mt-12">
-        <Button className="w-64 h-14 py-4 bg-blue-500" type="submit">
-          <p className="font-bold text-lg">Entrar</p>
+      <CardFooter className="mt-12 p-0 flex gap-4">
+        <Button
+          onClick={handleGoBack}
+          variant="outline"
+          className="w-64 h-14 py-4 bg-slate-100 hover:bg-slate-300"
+        >
+          <Label className="font-bold text-lg">Voltar</Label>
+        </Button>
+        <Button
+          className="w-full h-14 py-4 bg-blue-500 hover:bg-blue-600"
+          type="submit"
+        >
+          <Label className="font-bold text-lg">Entrar</Label>
         </Button>
       </CardFooter>
     </form>

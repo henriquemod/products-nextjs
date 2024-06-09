@@ -101,7 +101,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
           })}
         </TableRow>
       )),
-    [table, products.length]
+    [table]
   );
 
   const handleCreate = async (product: { name: string; price: number }) => {
@@ -117,7 +117,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
     if (productsFromApi) {
       setProducts(productsFromApi);
     }
-  }, [productsFromApi]);
+  }, [productsFromApi, setProducts]);
 
   useEffect(() => {
     setPagination({

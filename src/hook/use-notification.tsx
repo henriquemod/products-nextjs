@@ -1,11 +1,12 @@
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { ApiResponse } from "@/domain/api-reponse";
+import { ApiResponse } from "@/domain/api-response";
 
 interface HandleApiResponseProps {
   res: ApiResponse;
-  successMessage: string;
   onSuccess: () => void;
+  successMessage?: string;
+  unauthorizedMessage?: string;
 }
 
 export const useNotification = () => {
@@ -15,10 +16,11 @@ export const useNotification = () => {
     res,
     onSuccess,
     successMessage,
+    unauthorizedMessage,
   }: HandleApiResponseProps): void => {
     switch (res.type) {
       case "OK":
-        toast.success(successMessage);
+        successMessage && toast.success(successMessage);
         onSuccess();
         break;
       case "BAD_REQUEST":
@@ -27,11 +29,11 @@ export const useNotification = () => {
         );
         break;
       case "UNAUTHORIZED":
-        toast.error("Unauthorized");
+        toast.error(unauthorizedMessage ?? "Unauthorized");
         router.push("/auth");
         break;
       default:
-        toast.error("Internal server error");
+        toast.error("We have a problem. Please try again later.");
         break;
     }
   };

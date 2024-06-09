@@ -1,6 +1,7 @@
-import { ApiResponse } from "@/domain/api-reponse";
+import { ApiResponse } from "@/domain/api-response";
 import { Product } from "@/domain/product";
 import { createStore } from "zustand/vanilla";
+import { handleErrorResponse } from "./helpers/handle-error-response";
 
 export type ProductsState = {
   products: Product[];
@@ -28,20 +29,6 @@ const defaultInitState: ProductsState = {
   products: [],
   productsPerPage: 10,
   currentPage: 1,
-};
-
-const handleErrorResponse = async (res: Response): Promise<ApiResponse> => {
-  if (res.status === 400) {
-    const message = await res.json();
-    return { type: "BAD_REQUEST", message };
-  }
-  if (res.status === 401) {
-    return { type: "UNAUTHORIZED" };
-  }
-  if (res.status === 404) {
-    return { type: "NOT_FOUND" };
-  }
-  return { type: "INTERNAL_SERVER_ERROR" };
 };
 
 export const createProductStore = (

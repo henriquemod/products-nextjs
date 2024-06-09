@@ -6,6 +6,7 @@ export async function getProducts(): Promise<Product[] | undefined> {
   try {
     const res = await fetch(`http://localhost:3030/products`, {
       method: "GET",
+      cache: "no-store",
       headers: {
         "Content-Type": "application/json",
       },
