@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/providers/user-provider";
@@ -85,7 +84,7 @@ const AuthForm: React.FC = () => {
               onChange={handleChangeUsername}
             />
             {usernameError && (
-              <Label className="text-red-500 text-sm">{usernameError}</Label>
+              <span className="text-red-500 text-sm">{usernameError}</span>
             )}
           </div>
           <div className="w-64 sm:w-full text-center">
@@ -98,7 +97,7 @@ const AuthForm: React.FC = () => {
               onChange={handleChangePassword}
             />
             {passwordError && (
-              <Label className="text-red-500 text-sm">{passwordError}</Label>
+              <span className="text-red-500 text-sm">{passwordError}</span>
             )}
           </div>
         </div>
@@ -109,13 +108,13 @@ const AuthForm: React.FC = () => {
           variant="outline"
           className="w-64 sm:w-32 h-14 py-4 bg-slate-100 hover:bg-slate-300"
         >
-          <Label className="font-bold text-lg">Voltar</Label>
+          <span className="font-bold text-lg">Voltar</span>
         </Button>
         <Button
           className="w-64 h-14 py-4 bg-blue-500 hover:bg-blue-600"
           type="submit"
         >
-          <Label className="font-bold text-lg">Entrar</Label>
+          <span className="font-bold text-lg">Entrar</span>
         </Button>
       </CardFooter>
     </form>

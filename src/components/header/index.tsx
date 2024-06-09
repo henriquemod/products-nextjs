@@ -14,8 +14,8 @@ export const Header: React.FC = () => {
         {token ? (
           <SignOut />
         ) : (
-          <Link href="/auth">
-            <Label className="leading-normal">SignIn</Label>
+          <Link className="leading-normal" href="/auth">
+            SignIn
           </Link>
         )}
       </div>

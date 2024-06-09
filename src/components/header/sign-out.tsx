@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { Label } from "../ui/label";
 import Link from "next/link";
 import { useUserStore } from "@/providers/user-provider";
 import { useRouter } from "next/navigation";
@@ -18,8 +17,12 @@ export const SignOut: React.FC = () => {
     }
   };
   return (
-    <Link href="#" onClick={handleSignOut}>
-      <Label className="leading-normal cursor-pointer">SignOut</Label>
+    <Link
+      className="leading-normal cursor-pointer"
+      href="#"
+      onClick={handleSignOut}
+    >
+      SignOut
     </Link>
   );
 };
