@@ -6,6 +6,7 @@ import { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 import { ProductsStoreProvider } from "@/providers/products-provider";
 import { UserStoreProvider } from "@/providers/user-provider";
+import ToastProvider from "@/components/toast-provider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -28,7 +29,20 @@ export default function RootLayout({ children }: PropsWithChildren) {
         )}
       >
         <UserStoreProvider>
-          <ProductsStoreProvider>{children}</ProductsStoreProvider>
+          <ProductsStoreProvider>
+            <ToastProvider
+              position="top-center"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
+            {children}
+          </ProductsStoreProvider>
         </UserStoreProvider>
       </body>
     </html>
