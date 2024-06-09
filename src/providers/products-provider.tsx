@@ -1,11 +1,6 @@
 "use client";
-
-import {
-  createProductStore,
-  initProductStore,
-  ProductsStore,
-} from "@/store/products-store";
-import { type ReactNode, createContext, useRef, useContext } from "react";
+import { createProductStore, ProductsStore } from "@/store/products-store";
+import { type ReactNode, createContext, useContext, useRef } from "react";
 import { type StoreApi, useStore } from "zustand";
 
 export const ProductsStoreContext =
@@ -20,7 +15,7 @@ export const ProductsStoreProvider = ({
 }: ProductsStoreProviderProps) => {
   const storeRef = useRef<StoreApi<ProductsStore>>();
   if (!storeRef.current) {
-    storeRef.current = createProductStore(initProductStore());
+    storeRef.current = createProductStore();
   }
 
   return (

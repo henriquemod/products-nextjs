@@ -8,6 +8,7 @@ import {
   Table as UITable,
 } from "@/components/ui/table";
 import { Product } from "@/domain/product";
+import { useNotification } from "@/hook/use-notification";
 import { useProductsStore } from "@/providers/products-provider";
 import { useUserStore } from "@/providers/user-provider";
 import cookieCutter from "@boiseitguru/cookie-cutter";
@@ -42,21 +43,11 @@ const getAlignment = (i: number, length: number) => {
 export const ProductTable: React.FC<ProductTableProps> = ({
   products: productsFromApi,
 }) => {
-  const {
-    products,
-    currentPage,
-    productsPerPage,
-    setProducts,
-    handleCreateProduct,
-  } = useProductsStore((state) => state);
+  const { products, currentPage, productsPerPage, setProducts, createProduct } =
+    useProductsStore((state) => state);
   const { setAccessToken } = useUserStore((state) => state);
-
-  useEffect(() => {
-    const userAccessToken = cookieCutter.get("acess-token");
-    if (userAccessToken) {
-      setAccessToken(userAccessToken);
-    }
-  }, [setAccessToken]);
+  const { handleApiResponse } = useNotification();
+  const [openCreate, setOpenCreate] = useState(false);
 
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: currentPage,
@@ -113,6 +104,15 @@ export const ProductTable: React.FC<ProductTableProps> = ({
     [table, products.length]
   );
 
+  const handleCreate = async (product: { name: string; price: number }) => {
+    const res = await createProduct(product);
+    handleApiResponse({
+      res,
+      successMessage: `Product ${product.name} created!`,
+      onSuccess: () => setOpenCreate(false),
+    });
+  };
+
   useEffect(() => {
     if (productsFromApi) {
       setProducts(productsFromApi);
@@ -126,12 +126,12 @@ export const ProductTable: React.FC<ProductTableProps> = ({
     });
   }, [productsPerPage, currentPage]);
 
-  const [openCreate, setOpenCreate] = useState(false);
-
-  const handleCreate = async (product: { name: string; price: number }) => {
-    await handleCreateProduct(product);
-    setOpenCreate(false);
-  };
+  useEffect(() => {
+    const userAccessToken = cookieCutter.get("acess-token");
+    if (userAccessToken) {
+      setAccessToken(userAccessToken);
+    }
+  }, [setAccessToken]);
 
   return (
     <>

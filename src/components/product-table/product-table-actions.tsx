@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
   Menubar,
   MenubarContent,
@@ -10,13 +9,14 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar";
 import { Product } from "@/domain/product";
+import { useNotification } from "@/hook/use-notification";
 import { useProductsStore } from "@/providers/products-provider";
 import { useUserStore } from "@/providers/user-provider";
 import { Edit, Info, Settings, Trash } from "lucide-react";
 import React, { useState } from "react";
-import ViewProductDialog from "../dialog/view-product-dialog";
-import EditProductDialog from "../dialog/edit-product-dialog";
 import DeleteProductDialog from "../dialog/delete-product-dialog";
+import EditProductDialog from "../dialog/edit-product-dialog";
+import ViewProductDialog from "../dialog/view-product-dialog";
 
 interface ProductTableActionsProps {
   product: Product;
@@ -26,22 +26,30 @@ export const ProductTableActions: React.FC<ProductTableActionsProps> = ({
   product,
 }) => {
   const { accessToken } = useUserStore((state) => state);
-  const { handleDeleteProduct, handleUpdateProduct } = useProductsStore(
-    (state) => state
-  );
+  const { deleteProduct, updateProduct } = useProductsStore((state) => state);
   const [openView, setOpenView] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [name, setName] = useState(product.name);
   const [price, setPrice] = useState(product.price.toString());
+  const { handleApiResponse } = useNotification();
 
   const handleSave = async () => {
-    await handleUpdateProduct(product.id, { name, price: parseFloat(price) });
-    setOpenEdit(false);
+    const res = await updateProduct(product.id, {
+      name,
+      price: parseFloat(price),
+    });
+    handleApiResponse({
+      res,
+      successMessage: `Product ${name} updated successfully`,
+      onSuccess: () => {
+        setOpenEdit(false);
+      },
+    });
   };
 
   const handleDelete = async () => {
-    await handleDeleteProduct(product.id);
+    await deleteProduct(product.id);
     setOpenDelete(false);
   };
 
