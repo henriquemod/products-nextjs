@@ -1,3 +1,4 @@
+import { ApiResponse } from "@/domain/api-reponse";
 import { Product } from "@/domain/product";
 import { createStore } from "zustand/vanilla";
 
@@ -6,13 +7,6 @@ export type ProductsState = {
   productsPerPage: number;
   currentPage: number;
 };
-
-export type ApiResponse =
-  | { type: "OK" }
-  | { type: "BAD_REQUEST"; message: string | string[] }
-  | { type: "UNAUTHORIZED" }
-  | { type: "NOT_FOUND" }
-  | { type: "INTERNAL_SERVER_ERROR" };
 
 export type ProductsActions = {
   setProducts: (products: Product[]) => void;
