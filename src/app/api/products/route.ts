@@ -60,6 +60,8 @@ export async function GET(request: NextRequest) {
   const id = searchParams.get("id");
   const endpoint = id ? `products/id=${id}` : "products";
 
+  console.log({ searchParams });
+
   const res = await fetch(`${API_URL}/${endpoint}`, {
     headers: createHeaders(),
   });

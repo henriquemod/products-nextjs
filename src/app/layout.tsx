@@ -4,6 +4,7 @@ import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { PropsWithChildren } from "react";
 import type { Metadata } from "next";
+import { ProductsStoreProvider } from "@/providers/products-provider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -25,7 +26,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
           fontSans.variable
         )}
       >
-        {children}
+        <ProductsStoreProvider>{children}</ProductsStoreProvider>
       </body>
     </html>
   );
