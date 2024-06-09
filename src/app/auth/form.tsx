@@ -75,7 +75,7 @@ const AuthForm: React.FC = () => {
     <form onSubmit={handleSubmit}>
       <CardContent className="p-0">
         <div className="flex flex-col items-center justify-center gap-6">
-          <div className="w-full text-center">
+          <div className="w-64 sm:w-full text-center">
             <Input
               className="h-12"
               id="username"
@@ -88,7 +88,7 @@ const AuthForm: React.FC = () => {
               <Label className="text-red-500 text-sm">{usernameError}</Label>
             )}
           </div>
-          <div className="w-full text-center">
+          <div className="w-64 sm:w-full text-center">
             <Input
               className="h-12"
               id="password"
@@ -103,16 +103,16 @@ const AuthForm: React.FC = () => {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="mt-12 p-0 flex gap-4">
+      <CardFooter className="mt-8 sm:mt-12 p-0 flex gap-4 flex-col-reverse sm:flex-row">
         <Button
           onClick={handleGoBack}
           variant="outline"
-          className="w-64 h-14 py-4 bg-slate-100 hover:bg-slate-300"
+          className="w-64 sm:w-32 h-14 py-4 bg-slate-100 hover:bg-slate-300"
         >
           <Label className="font-bold text-lg">Voltar</Label>
         </Button>
         <Button
-          className="w-full h-14 py-4 bg-blue-500 hover:bg-blue-600"
+          className="w-64 h-14 py-4 bg-blue-500 hover:bg-blue-600"
           type="submit"
         >
           <Label className="font-bold text-lg">Entrar</Label>

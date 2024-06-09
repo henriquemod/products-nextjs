@@ -30,11 +30,9 @@ interface ProductTableProps {
   products?: Product[];
 }
 
-const getAlignment = (i: number, length: number) => {
+const getAlignment = (i: number) => {
   if (i === 0) {
     return "text-left w-full";
-  } else if (i === length - 1) {
-    return "text-right";
   } else {
     return "text-center";
   }
@@ -60,7 +58,9 @@ export const ProductTable: React.FC<ProductTableProps> = ({
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: setPagination,
-    state: { pagination },
+    state: {
+      pagination,
+    },
   });
 
   const renderTableHeader = useCallback(
@@ -68,10 +68,10 @@ export const ProductTable: React.FC<ProductTableProps> = ({
       table.getHeaderGroups().map((headerGroup) => (
         <TableRow key={headerGroup.id}>
           {headerGroup.headers.map((header, i) => {
-            const alignment = getAlignment(i, headerGroup.headers.length);
+            const alignment = getAlignment(i);
             return (
               <TableHead
-                className={`truncate ${alignment} font-bold`}
+                className={`truncate ${alignment} font-bold text-xs sm:text-sm p-1 xs:p-2 sm:p-4`}
                 key={header.id}
               >
                 {!header.isPlaceholder &&
@@ -92,9 +92,12 @@ export const ProductTable: React.FC<ProductTableProps> = ({
       table.getRowModel().rows.map((row) => (
         <TableRow className="text-right" key={row.id}>
           {row.getVisibleCells().map((cell, i) => {
-            const alignment = getAlignment(i, row.getVisibleCells().length);
+            const alignment = getAlignment(i);
             return (
-              <TableCell className={alignment} key={cell.id}>
+              <TableCell
+                className={`${alignment} p-1 xs:p-2 sm:p-4`}
+                key={cell.id}
+              >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </TableCell>
             );
@@ -134,13 +137,13 @@ export const ProductTable: React.FC<ProductTableProps> = ({
   }, [setAccessToken]);
 
   return (
-    <>
-      <div className="w-full flex justify-end pr-1">
+    <div className="min-w-[374px]">
+      <div className="w-full flex justify-end pr-1 pb-4">
         <Button variant="ghost" onClick={() => setOpenCreate(true)}>
           <CirclePlus className="text-green-500 w-8 h-8" />
         </Button>
       </div>
-      <UITable className="border relative">
+      <UITable className="border">
         <TableHeader>{renderTableHeader()}</TableHeader>
         <TableBody>{renderTableBody()}</TableBody>
       </UITable>
@@ -158,6 +161,6 @@ export const ProductTable: React.FC<ProductTableProps> = ({
         onClose={() => setOpenCreate(false)}
         onCreate={handleCreate}
       />
-    </>
+    </div>
   );
 };

@@ -104,7 +104,7 @@ const EditProductDialog: React.FC<EditProductDialogProps> = ({
             )}
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="flex flex-row justify-end gap-2">
           <Button className="w-32" variant="secondary" onClick={onClose}>
             Cancel
           </Button>

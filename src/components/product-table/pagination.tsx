@@ -34,7 +34,7 @@ export const ProductTablePagination: React.FC<ProductTableActionsProps> = ({
     useProductsStore((state) => state);
 
   return (
-    <div className="flex items-center gap-2 justify-end text-slate-500 text-sm">
+    <div className="flex items-center gap-2 justify-end text-slate-500 text-sm mt-4">
       <Button
         variant="outline"
         onClick={handleGoToFirstPage}
@@ -52,7 +52,8 @@ export const ProductTablePagination: React.FC<ProductTableActionsProps> = ({
       </Button>
       <span className="flex items-center gap-1">
         <div>Page</div>
-        <strong>{`${index} of ${productsPerPage}`}</strong>
+        <strong className="hidden sm:block">{`${index} of ${productsPerPage}`}</strong>
+        <strong className="sm:hidden">{index}</strong>
       </span>
       <Button
         variant="outline"

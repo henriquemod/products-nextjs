@@ -24,8 +24,7 @@ export default async function Home() {
   return (
     <main>
       <Header />
-      <div className="flex flex-col gap-6 px-6 max-w-4xl ml-auto mr-auto">
-        <h1>Products Available</h1>
+      <div className="flex flex-col gap-6 px-1 xs:px-2 sm:px-6 max-w-4xl ml-auto mr-auto pt-4">
         <ProductTable products={products} />
       </div>
     </main>

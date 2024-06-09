@@ -1,6 +1,7 @@
 import { Product } from "@/domain/product";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { ProductTableActions } from "./product-table-actions";
+import { Label } from "../ui/label";
 
 const formatDate = (date: Date) =>
   date.toLocaleDateString("en-US", {
@@ -14,15 +15,27 @@ const columnHelper = createColumnHelper<Product>();
 export const productTableColumns: ColumnDef<Product, any>[] = [
   columnHelper.accessor("name", {
     header: "Product",
-    cell: (info) => info.getValue(),
+    cell: (info) => (
+      <Label className="font-normal text-xs sm:text-sm">
+        {info.getValue()}
+      </Label>
+    ),
   }),
   columnHelper.accessor("updatedAt", {
     header: "Last update",
-    cell: (info) => formatDate(new Date(info.getValue())),
+    cell: (info) => (
+      <Label className="font-normal text-xs sm:text-sm">
+        {formatDate(new Date(info.getValue()))}
+      </Label>
+    ),
   }),
   columnHelper.accessor("price", {
     header: "Price",
-    cell: (info) => `$${info.getValue().toFixed(2)}`,
+    cell: (info) => (
+      <Label className="font-normal text-xs sm:text-sm">
+        {info.getValue().toFixed(2)}
+      </Label>
+    ),
   }),
   columnHelper.display({
     header: "Actions",

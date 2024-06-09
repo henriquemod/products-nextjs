@@ -27,8 +27,8 @@ export type ProductsStore = ProductsState & ProductsActions;
 
 const defaultInitState: ProductsState = {
   products: [],
-  productsPerPage: 10,
-  currentPage: 1,
+  productsPerPage: 5,
+  currentPage: 0,
 };
 
 export const createProductStore = (

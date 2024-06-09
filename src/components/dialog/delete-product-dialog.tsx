@@ -29,7 +29,7 @@ const DeleteProductDialog: React.FC<DeleteProductDialogProps> = ({
           Are you sure you want to delete this product?
         </DialogDescription>
       </DialogHeader>
-      <DialogFooter>
+      <DialogFooter className="flex flex-row justify-end gap-2 mt-4">
         <Button className="w-32" variant="secondary" onClick={onClose}>
           Cancel
         </Button>
