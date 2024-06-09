@@ -43,7 +43,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
 }) => {
   const { products, currentPage, productsPerPage, setProducts, createProduct } =
     useProductsStore((state) => state);
-  const { setAccessToken } = useUserStore((state) => state);
+  const { setAccessToken, accessToken } = useUserStore((state) => state);
   const { handleApiResponse } = useNotification();
   const [openCreate, setOpenCreate] = useState(false);
 
@@ -111,7 +111,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
     const res = await createProduct(product);
     handleApiResponse({
       res,
-      successMessage: `Product ${product.name} created!`,
+      successMessage: `Product ${product.name} created successfully!`,
       onSuccess: () => setOpenCreate(false),
     });
   };
@@ -138,11 +138,17 @@ export const ProductTable: React.FC<ProductTableProps> = ({
 
   return (
     <div className="min-w-[374px]">
-      <div className="w-full flex justify-end pr-1 pb-4">
-        <Button variant="ghost" onClick={() => setOpenCreate(true)}>
-          <CirclePlus className="text-green-500 w-8 h-8" />
-        </Button>
-      </div>
+      {accessToken && (
+        <div className="w-full flex justify-end pr-1 pb-4">
+          <Button
+            id="add-product-btn"
+            variant="ghost"
+            onClick={() => setOpenCreate(true)}
+          >
+            <CirclePlus className="text-green-500 w-8 h-8" />
+          </Button>
+        </div>
+      )}
       <UITable className="border">
         <TableHeader>{renderTableHeader()}</TableHeader>
         <TableBody>{renderTableBody()}</TableBody>

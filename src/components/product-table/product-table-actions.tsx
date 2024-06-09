@@ -49,8 +49,14 @@ export const ProductTableActions: React.FC<ProductTableActionsProps> = ({
   };
 
   const handleDelete = async () => {
-    await deleteProduct(product.id);
-    setOpenDelete(false);
+    const res = await deleteProduct(product.id);
+    handleApiResponse({
+      res,
+      successMessage: `Product ${name} deleted successfully`,
+      onSuccess: () => {
+        setOpenDelete(false);
+      },
+    });
   };
 
   return (
@@ -71,7 +77,7 @@ export const ProductTableActions: React.FC<ProductTableActionsProps> = ({
               disabled={!accessToken}
               onClick={() => setOpenEdit(true)}
             >
-              Update
+              Edit
               <MenubarShortcut>
                 <Edit className="w-4" />
               </MenubarShortcut>

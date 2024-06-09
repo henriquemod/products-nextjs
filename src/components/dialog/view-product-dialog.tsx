@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/domain/product";
 import React from "react";
+import { formatDate } from "../header/format-date";
 
 interface ViewProductDialogProps {
   open: boolean;
@@ -34,12 +35,12 @@ const ViewProductDialog: React.FC<ViewProductDialogProps> = ({
           { label: "Price", value: product.price.toString(), id: "price" },
           {
             label: "Created at",
-            value: product.createdAt.toString(),
+            value: formatDate(new Date(product.createdAt)),
             id: "createdAt",
           },
           {
             label: "Updated at",
-            value: product.updatedAt.toString(),
+            value: formatDate(new Date(product.updatedAt)),
             id: "updatedAt",
           },
         ].map(({ label, value, id }) => (

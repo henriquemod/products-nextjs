@@ -1,13 +1,7 @@
 import { Product } from "@/domain/product";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { ProductTableActions } from "./product-table-actions";
-
-const formatDate = (date: Date) =>
-  date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
+import { formatDate } from "../header/format-date";
 
 const columnHelper = createColumnHelper<Product>();
 
@@ -30,7 +24,7 @@ export const productTableColumns: ColumnDef<Product, any>[] = [
     header: "Price",
     cell: (info) => (
       <h4 className="font-normal text-xs sm:text-sm">
-        {info.getValue().toFixed(2)}
+        ${info.getValue().toFixed(2)}
       </h4>
     ),
   }),
