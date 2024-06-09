@@ -7,6 +7,8 @@ import React, { useState } from "react";
 const AuthForm: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [usernameError, setUsernameError] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
 
   const handleChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -16,8 +18,32 @@ const AuthForm: React.FC = () => {
     setPassword(e.target.value);
   };
 
+  const validateFields = () => {
+    let valid = true;
+
+    if (!username) {
+      setUsernameError("Username is required.");
+      valid = false;
+    } else {
+      setUsernameError(null);
+    }
+
+    if (!password) {
+      setPasswordError("Password is required.");
+      valid = false;
+    } else {
+      setPasswordError(null);
+    }
+
+    return valid;
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!validateFields()) {
+      return;
+    }
+
     const requestBackend = async (username: string, password: string) => {
       const response = await fetch("/api/login", {
         method: "POST",
@@ -33,6 +59,7 @@ const AuthForm: React.FC = () => {
         window.location.replace("/");
       }
     };
+
     await requestBackend(username, password);
   };
 
@@ -49,6 +76,9 @@ const AuthForm: React.FC = () => {
               value={username}
               onChange={handleChangeUsername}
             />
+            {usernameError && (
+              <p className="text-red-500 text-sm">{usernameError}</p>
+            )}
           </div>
           <div className="flex flex-col w-[420px]">
             <Input
@@ -59,6 +89,9 @@ const AuthForm: React.FC = () => {
               value={password}
               onChange={handleChangePassword}
             />
+            {passwordError && (
+              <p className="text-red-500 text-sm">{passwordError}</p>
+            )}
           </div>
         </div>
       </CardContent>
