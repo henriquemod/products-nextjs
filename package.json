@@ -8,7 +8,8 @@
     "start": "next start -p 3031",
     "lint": "next lint",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run --headless --browser chrome"
+    "cypress:run": "cypress run --headless --browser chrome",
+    "cypress:run:electron": "cypress run --headless --browser electron"
   },
   "dependencies": {
     "@boiseitguru/cookie-cutter": "^0.2.3",
