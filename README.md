@@ -87,17 +87,6 @@ npm run build
 npm run start
 ```
 
-```bash
-npm run docker:dev
-
-# for development environment
-npm run start:dev
-
-# or for production environment
-npm run build
-npm run start:prod
-```
-
 <!-- Usage -->
 
 ## Usage
