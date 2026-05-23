@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
 
   if (data.status === 200) {
     const cookieStore = cookies();
-    cookieStore.set("acess-token", jsonData.access_token);
+    cookieStore.set("access-token", jsonData.access_token);
   }
 
   return NextResponse.json(jsonData, { status: data.status });

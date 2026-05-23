@@ -130,7 +130,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
   }, [productsPerPage, currentPage]);
 
   useEffect(() => {
-    const userAccessToken = cookieCutter.get("acess-token");
+    const userAccessToken = cookieCutter.get("access-token");
     if (userAccessToken) {
       setAccessToken(userAccessToken);
     }

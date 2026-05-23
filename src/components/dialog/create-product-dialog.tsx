@@ -89,6 +89,9 @@ export const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
             </Label>
             <Input
               id="create-price"
+              type="number"
+              min="0"
+              step="0.01"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               className="col-span-3"

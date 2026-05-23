@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const getAuthToken = () => {
   const cookieStore = cookies();
-  return cookieStore.get("acess-token")?.value;
+  return cookieStore.get("access-token")?.value;
 };
 
 const createHeaders = (token?: string) => ({
@@ -58,7 +58,7 @@ export async function PUT(request: NextRequest) {
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const id = searchParams.get("id");
-  const path = id ? `products/id=${id}` : "products";
+  const path = id ? `products/${id}` : "products";
 
   const res = await fetch(`${envs.apiEndpoint}/${path}`, {
     headers: createHeaders(),
