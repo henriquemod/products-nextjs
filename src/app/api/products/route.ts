@@ -58,6 +58,11 @@ export async function PUT(request: NextRequest) {
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const id = searchParams.get("id");
+
+  if (id && !/^[a-zA-Z0-9_-]+$/.test(id)) {
+    return NextResponse.json({ message: "Invalid ID format" }, { status: 400 });
+  }
+
   const path = id ? `products/${id}` : "products";
 
   const res = await fetch(`${envs.apiEndpoint}/${path}`, {
