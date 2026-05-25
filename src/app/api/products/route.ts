@@ -25,6 +25,8 @@ const handleResponse = async (res: Response) => {
 const isValidProductId = (id: string): boolean =>
   /^[a-zA-Z0-9_-]+$/.test(id);
 
+const INVALID_ID_MSG = "Invalid ID format";
+
 export async function POST(request: NextRequest) {
   const requestBody = await request.json();
   const token = getAuthToken();
@@ -47,7 +49,7 @@ export async function PUT(request: NextRequest) {
   }
 
   if (!isValidProductId(id)) {
-    return NextResponse.json({ message: "Invalid ID format" }, { status: 400 });
+    return NextResponse.json({ message: INVALID_ID_MSG }, { status: 400 });
   }
 
   const requestBody = await request.json();
@@ -67,7 +69,7 @@ export async function GET(request: NextRequest) {
   const id = searchParams.get("id");
 
   if (id && !isValidProductId(id)) {
-    return NextResponse.json({ message: "Invalid ID format" }, { status: 400 });
+    return NextResponse.json({ message: INVALID_ID_MSG }, { status: 400 });
   }
 
   const path = id ? `products/${id}` : "products";
@@ -88,7 +90,7 @@ export async function DELETE(request: NextRequest) {
   }
 
   if (!isValidProductId(id)) {
-    return NextResponse.json({ message: "Invalid ID format" }, { status: 400 });
+    return NextResponse.json({ message: INVALID_ID_MSG }, { status: 400 });
   }
 
   const token = getAuthToken();
