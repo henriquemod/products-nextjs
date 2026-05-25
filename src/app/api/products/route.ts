@@ -22,6 +22,9 @@ const handleResponse = async (res: Response) => {
   return NextResponse.json(body, { status: res.status });
 };
 
+const isValidProductId = (id: string): boolean =>
+  /^[a-zA-Z0-9_-]+$/.test(id);
+
 export async function POST(request: NextRequest) {
   const requestBody = await request.json();
   const token = getAuthToken();
@@ -43,6 +46,10 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ message: "ID is required" }, { status: 400 });
   }
 
+  if (!isValidProductId(id)) {
+    return NextResponse.json({ message: "Invalid ID format" }, { status: 400 });
+  }
+
   const requestBody = await request.json();
   const token = getAuthToken();
 
@@ -59,7 +66,7 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const id = searchParams.get("id");
 
-  if (id && !/^[a-zA-Z0-9_-]+$/.test(id)) {
+  if (id && !isValidProductId(id)) {
     return NextResponse.json({ message: "Invalid ID format" }, { status: 400 });
   }
 
@@ -78,6 +85,10 @@ export async function DELETE(request: NextRequest) {
 
   if (!id) {
     return NextResponse.json({ message: "ID is required" }, { status: 400 });
+  }
+
+  if (!isValidProductId(id)) {
+    return NextResponse.json({ message: "Invalid ID format" }, { status: 400 });
   }
 
   const token = getAuthToken();
