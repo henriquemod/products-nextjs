@@ -1,6 +1,7 @@
 import { envs } from "@/envs";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { ACCESS_TOKEN_COOKIE } from "@/lib/constants";
 
 const requestBackend = async (username: string, password: string) => {
   const response = await fetch(`${envs.apiEndpoint}/auth/login`, {
@@ -23,7 +24,11 @@ export async function POST(request: NextRequest) {
 
   if (data.status === 200) {
     const cookieStore = cookies();
-    cookieStore.set("acess-token", jsonData.access_token);
+    cookieStore.set(ACCESS_TOKEN_COOKIE, jsonData.access_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+    });
   }
 
   return NextResponse.json(jsonData, { status: data.status });

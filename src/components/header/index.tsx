@@ -6,7 +6,7 @@ import { SignOut } from "./sign-out";
 
 export const Header: React.FC = () => {
   const cookieStore = cookies();
-  const token = cookieStore.get("acess-token");
+  const token = cookieStore.get("access-token");
   return (
     <div className="bg-gray-800 flex content-center justify-center text-white">
       <div className="flex flex-1 justify-between p-5 max-w-4xl">

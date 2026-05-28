@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const getAuthToken = () => {
   const cookieStore = cookies();
-  return cookieStore.get("acess-token")?.value;
+  return cookieStore.get("access-token")?.value;
 };
 
 const createHeaders = (token?: string) => ({
@@ -21,6 +21,11 @@ const handleResponse = async (res: Response) => {
   const body = await res.json();
   return NextResponse.json(body, { status: res.status });
 };
+
+const isValidProductId = (id: string): boolean =>
+  /^[a-zA-Z0-9_-]+$/.test(id);
+
+const INVALID_ID_MSG = "Invalid ID format";
 
 export async function POST(request: NextRequest) {
   const requestBody = await request.json();
@@ -43,6 +48,10 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ message: "ID is required" }, { status: 400 });
   }
 
+  if (!isValidProductId(id)) {
+    return NextResponse.json({ message: INVALID_ID_MSG }, { status: 400 });
+  }
+
   const requestBody = await request.json();
   const token = getAuthToken();
 
@@ -58,7 +67,12 @@ export async function PUT(request: NextRequest) {
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const id = searchParams.get("id");
-  const path = id ? `products/id=${id}` : "products";
+
+  if (id && !isValidProductId(id)) {
+    return NextResponse.json({ message: INVALID_ID_MSG }, { status: 400 });
+  }
+
+  const path = id ? `products/${id}` : "products";
 
   const res = await fetch(`${envs.apiEndpoint}/${path}`, {
     headers: createHeaders(),
@@ -73,6 +87,10 @@ export async function DELETE(request: NextRequest) {
 
   if (!id) {
     return NextResponse.json({ message: "ID is required" }, { status: 400 });
+  }
+
+  if (!isValidProductId(id)) {
+    return NextResponse.json({ message: INVALID_ID_MSG }, { status: 400 });
   }
 
   const token = getAuthToken();
